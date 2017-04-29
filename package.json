@@ -1,0 +1,19 @@
+{
+  "name": "flashcards",
+  "version": "1.0.0",
+  "description": "flash card genorator that is run via command line",
+  "main": "BasicCard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itolu94/Flash_Cards.git"
+  },
+  "author": "Tolu Idowu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itolu94/Flash_Cards/issues"
+  },
+  "homepage": "https://github.com/itolu94/Flash_Cards#readme"
+}
