@@ -1,6 +1,7 @@
-var BasicCard = function(question, answer) {
+var BasicCard = function(front, answer) {
+    this.front = front
     this.question = function() {
-        this.question
+       return this.front;
     }
     this.answer = answer;
 }
