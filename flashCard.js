@@ -8,14 +8,17 @@ var inquirer = require('inquirer');
 var Basic = require('./BasicCard.js');
 var Cloze = require('./ClozeCard.js');
 
-var flashCard;
+// variable that will hold the Basic or Cloze constructor
+var FlashCard;
+
+// will be used to determine how many flash cards the user needs
 var cardAmount = 0;
 
 // keeps track of how many cards we have genorated
 var counter = 0;
 
 // push all the flash cards into this array
-var flashCardsList = [];
+var FlashCardsList = [];
 
 
 
@@ -25,13 +28,15 @@ function makeFlashCards() {
         name: 'cardType',
         type: 'list',
         message: 'What type of flash card would you like to use?',
-        choices: ['Basic', 'Cloze', 'cancel']
+        choices: ['Basic', 'Cloze', 'Cancel']
     }]).then(function(user) {
+    	
+    	// set FlashCard var to either basic or cloze constructor
         if (user.cardType === 'Basic') {
-            flashCard = Basic;
+            FlashCard = Basic;
             amountOfCards();
         } else if (user.cardType === 'Cloze') {
-            flashCard = Cloze;
+            FlashCard = Cloze;
             amountOfCards();
         } else {
             console.log('\n Come back when you need to create flash cards!!');
@@ -52,6 +57,7 @@ function amountOfCards() {
             console.log('\n \n Lets get started!');
             cardGenorator();
         } else {
+            console.log('\n \n Lets get started!');
             amountOfCards()
         }
     })
@@ -68,16 +74,16 @@ function cardGenorator() {
             name: 'cardAnswer',
             message: '\n \n What would you like the answer or part to be exlucded for this card to be?'
         }]).then(function(card) {
-            var newCard = new flashCard(card.cardQuestion, card.cardAnswer);
+            var newCard = new FlashCard(card.cardQuestion, card.cardAnswer);
             // push new instance of the card into an array
-            flashCardsList.push(newCard);
+            FlashCardsList.push(newCard);
             counter++;
             // call our function again until the amount of cards wanted is reacheds
             cardGenorator();
         });
     } else {
     	// counter will now be used to determine which questino we are on
-    	// reset it to 0 since the first flash cards that were pushed to flashCardsList array starting position is 0. 
+    	// reset it to 0 since the first flash cards that were pushed to FlashCardsList array starting position is 0. 
         counter = 0;
         console.log('\n \n Here are your flash card!')
         practiceFlashCard();
@@ -87,18 +93,18 @@ function cardGenorator() {
 
 // allows the user to use the flash cards
 function practiceFlashCard() {
-    if (counter < flashCardsList.length) {
-        var currentQuestion = flashCardsList[counter].question();
+    if (counter < FlashCardsList.length) {
+        var currentQuestion = FlashCardsList[counter].question();
         inquirer.prompt([{
             name: 'question',
             message: currentQuestion
         }]).then(function(user) {
-            if (user.question === flashCardsList[counter].answer) {
-                console.log('Correct! the right answer was ' + "' " + flashCardsList[counter].answer + " '");
+            if (user.question === FlashCardsList[counter].answer) {
+                console.log('Correct! the right answer was ' + "' " + FlashCardsList[counter].answer + " '");
                 counter++;
                 practiceFlashCard();
             } else {
-                console.log('Sorry, the correct answer was ' +" ' "+ flashCardsList[counter].answer + " '");
+                console.log('Sorry, the correct answer was ' +" ' "+ FlashCardsList[counter].answer + " '");
                 counter++;
                 practiceFlashCard();
             }
@@ -114,7 +120,7 @@ function practiceFlashCard() {
         }]).then(function(user) {
             counter = 0;
             if (user.nextStep === 'Make new flash cards') {
-                flashCardsList = [];
+                FlashCardsList = [];
                 makeFlashCards()
             }
             if (user.nextStep === 'reuse these flash cards') {
